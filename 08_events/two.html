@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>This is a h1 tag</h1>
+    <button id="stop">stop</button>
+</body>
+<script>
+    const sayhii = function () {
+        console.log("Aditya Hii, changed text");
+    };
+
+    const changeh1 = function () {
+        document.querySelector('h1').innerHTML = "Learning JS";
+    };
+
+    // Directly schedule the h1 change after 3 seconds
+    setTimeout(changeh1, 3000); // No need to store the identifier
+
+    setTimeout(sayhii, 2000); // Call sayhii after 2 seconds
+
+    // Target button element for event listener
+    document.getElementById('stop').addEventListener('click', function () {
+        clearTimeout(setTimeout(changeh1, 3000)); // Pass entire setTimeout call
+        console.log("STOPPED");
+    });
+</script>
+
+</html>

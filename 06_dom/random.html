@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holi</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #explosionButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: move 2s ease-in-out, scaleUp 0.5s ease-out forwards, pop 0.5s forwards;
+        }
+
+        .sprinkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: sprinkle-fall 3s linear infinite;
+        }
+
+        .heart {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff0000;
+            clip-path: polygon(50% 0%, 100% 28%, 79% 71%, 50% 100%, 21% 71%, 0% 28%);
+            animation: sprinkle-fall 3s linear infinite;
+        }
+
+        .star {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffff00;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: sprinkle-fall 3s linear infinite;
+        }
+
+        .paint {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 0%, #ff0000 20%, #ff7f00 40%, #ffff00 60%, #00ff00 80%, #0000ff 100%);
+            animation: paintEffect 10s linear forwards;
+            opacity: 0;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(calc(100vw - 10px), calc(100vh - 10px));
+            }
+        }
+
+        @keyframes scaleUp {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(20);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes sprinkle-fall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(100vh);
+                opacity: 1;
+            }
+        }
+
+        @keyframes paintEffect {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="explosionButton">Happy Holi</button>
+
+    <script>
+        document.getElementById("explosionButton").addEventListener("click", function () {
+            startExplosion();
+        });
+
+        function startExplosion() {
+            var explosionDuration = 20000; // 20 seconds
+            var sprinkleInterval = 200; // interval for adding sprinkles
+
+            // Start explosion
+            createExplosionParticles(explosionDuration);
+
+            // Add sprinkles
+            var sprinkleTimer = setInterval(function () {
+                createSprinkle();
+            }, sprinkleInterval);
+
+            // Start paint effect after 30 seconds
+            setTimeout(function () {
+                createPaintEffect();
+                clearInterval(sprinkleTimer);
+            }, 30000);
+        }
+
+        function createExplosionParticles(duration) {
+            var explosionInterval = 500; // interval for adding colors
+
+            var explosionTimer = setInterval(function () {
+                createExplosionParticle();
+            }, explosionInterval);
+
+            setTimeout(function () {
+                clearInterval(explosionTimer);
+            }, duration);
+        }
+
+        function createExplosionParticle() {
+            var particle = document.createElement("div");
+            particle.classList.add("particle");
+
+            particle.style.backgroundColor = getRandomColor();
+            particle.style.top = Math.random() * window.innerHeight + "px";
+            particle.style.left = Math.random() * window.innerWidth + "px";
+
+            document.body.appendChild(particle);
+
+            setTimeout(function () {
+                particle.remove(); // Remove the particle after it pops
+            }, 1000); // Adjust the timing of the pop
+        }
+
+        function createSprinkle() {
+            var sprinkle = document.createElement("div");
+            sprinkle.classList.add("sprinkle");
+
+            // Set random background color
+            sprinkle.style.backgroundColor = getRandomColor();
+
+            // Set random horizontal position
+            sprinkle.style.left = Math.random() * window.innerWidth + "px";
+
+            // Set initial vertical position above the viewport
+            sprinkle.style.top = "-20px";
+
+            // Randomize shape (using let for better scoping)
+            let shape = Math.random();
+            if (shape < 0.33) {
+                sprinkle.classList.add("heart");
+            } else if (shape < 0.66) {
+                sprinkle.classList.add("star");
+            } else {
+                // Add a default shape class (optional)
+                sprinkle.classList.add("circle");  // Example default shape
+            }
+
+            document.body.appendChild(sprinkle);
+
+            // Animate movement and fading (using requestAnimationFrame for smoother animation)
+            function animateSprinkle() {
+                sprinkle.style.top = parseFloat(sprinkle.style.top) + 5 + "px";  // Move down slowly
+                sprinkle.style.opacity -= 0.01;  // Gradually fade out
+
+                if (parseFloat(sprinkle.style.top) < window.innerHeight && sprinkle.style.opacity > 0) {
+                    requestAnimationFrame(animateSprinkle);
+                } else {
+                    sprinkle.remove();
+                }
+            }
+            requestAnimationFrame(animateSprinkle);
+        }
+
+        function createPaintEffect() {
+            var paint = document.createElement("div");
+
+            paint.classList.add("paint");
+            document.body.appendChild(paint);
+        }
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+
+</html>

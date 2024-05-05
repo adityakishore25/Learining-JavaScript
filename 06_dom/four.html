@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fourth file in DOM</title>
+</head>
+
+<body style="background-color: rgba(0, 0, 0, 0.9); color: white;">
+    <ul class="language">
+        <li>JavaScript</li>
+    </ul>
+</body>
+<script>
+    // Edit, remove and add DOM elements
+    function addLanguage(langName) {  // traversing the complete tree
+        const li = document.createElement('li')
+        li.innerHTML = `${langName}`
+        document.querySelector('.language').appendChild(li)
+    }
+    addLanguage("Python")
+    addLanguage("Java")
+    // another way, more optimised
+    function addOptiLanguage(langName) {
+        const li = document.createElement('li')
+        const addText = document.createTextNode(langName)
+        li.appendChild(addText)
+        document.querySelector('.language').appendChild(li)
+    }
+    addOptiLanguage('Golang')
+
+    // Edit :
+    const secondLang = document.querySelector("li:nth-child(2)")  // selecting the second li
+    console.log(secondLang)
+    // secondLang.innerHTML = "Mojo"  // not an optimised approach
+    const newLi = document.createElement('li')  //creating a new element of type li
+    newLi.textContent = "Mojo"
+    secondLang.replaceWith(newLi)
+
+    // Edit:
+    const firstLang = document.querySelector("li:first-child")
+    const nayaLi = document.createElement('li')
+    nayaLi.textContent = "typescript"
+    // firstLang.replaceWith(nayaLi)
+    // another method: 
+    firstLang.outerHTML = '<li>TypeScript</li>'
+
+    // remove
+    const lastLang = document.querySelector('li:last-child')
+    lastLang.remove()
+</script>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM | Cahi aur Code</title>
+</head>
+style="background-color: rgba(0, 0, 0, 0.9); color: white;
+<body ">
+    <div class="parent">
+        <div class="day">Monday</div>
+        <div class="day">Tuesday</div>
+        <div class="day">Wednesday</div>
+        <div class="day">Thrusday</div>
+    </div>
+</body>
+<script>
+    const parent = document.querySelector('.parent')
+    // console.log(parent);  // class
+    // console.log(parent.children)  // HTML collection
+    // console.log(parent.children[1].innerHTML)
+
+    // for (let i = 0; i < parent.children.length; i++) {
+    //     console.log(parent.children[i].innerHTML);
+        
+    // }
+    parent.children[1].style.color = 'orange'
+    // console.log(parent.firstElementChild)
+    // console.log(parent.lastElementChild)
+
+    const dayOne = document.querySelector('.day') // will return the first 
+    // element in the HTML document that has the class name "day"
+    console.log(dayOne)  
+    console.log(dayOne.parentElement) // parent element 
+    console.log(dayOne.nextElementSibling)  // next sibling i.e. Tuesday
+    console.log("NODES: ", parent.childNodes)  // this will consider a line break a new element and text a new element
+</script>
+
+</html>

@@ -1,0 +1,68 @@
+<!-- Assignment @ 22.35 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment</title>
+    <style>
+        /* Card styles */
+        .card {
+            width: 500px;
+            height: 600px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            /* Center the card content vertically and horizontally */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            padding: 2px 16px;
+            color: #ffff;
+        }
+        #get_Details {
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #212121;">
+    <div class="card">
+        <img src="avatar.jpg" alt="Avata" id="image" style="width:100%">
+        <div class="container">
+            <h4>Avata</h4>
+            <p>Web Developer</p>
+        </div>
+        <button id="get_Details">click here to get details</button>
+    </div>
+</body>
+<script>
+    const requestUrl = 'https://api.github.com/users/adityakishore25'
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', requestUrl)
+    xhr.onreadystatechange = function () {
+        console.log(xhr.readyState);
+        if (xhr.readyState === 4) {
+            // const data = this.responseText  // type of data is string
+            const data = JSON.parse(this.responseText) // type of data is object
+            console.log(data)
+            console.log(data.followers)
+            const btn = document.getElementById('get_Details');
+            btn.addEventListener('click', function () {
+                document.querySelector('h4').innerHTML = data.login;
+                document.querySelector('p').innerHTML = "Followers: " + data.followers
+                const image = document.getElementById('image');
+                const profileImageUrl = `https://github.com/${data.login}.png`; // Example format
+                image.src = profileImageUrl
+                this.remove();
+
+            });
+        }
+    }
+    xhr.send();
+</script>
+</html>
